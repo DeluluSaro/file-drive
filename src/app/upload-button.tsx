@@ -57,28 +57,27 @@ export default function UploadButton() {
     if (!orgId) return;
 
     const postUrl = await generateUploadUrl();
-    const fileType=values.file[0].type
+    const fileType = values.file[0].type;
     const result = await fetch(postUrl, {
       method: "POST",
-      headers: { "Content-Type":fileType  },
+      headers: { "Content-Type": fileType },
       body: values.file[0],
     });
     const { storageId } = await result.json();
-  
 
-    const types={
-      "image/png":"image",
-      "application/pdf":"pdf",
-      "text/csv":"csv"
-    }as Record<string,Doc<"files">["type"]>
+    const types = {
+      "image/png": "image",
+      "application/pdf": "pdf",
+      "text/csv": "csv",
+    } as Record<string, Doc<"files">["type"]>;
 
-    console.log(values.file[0].type)
+    console.log(values.file[0].type);
     try {
       await createFile({
         name: values.title,
         fileId: storageId,
         orgId,
-        type:types[fileType]
+        type: types[fileType],
       });
 
       setLoading(false);
