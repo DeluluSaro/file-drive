@@ -36,8 +36,8 @@ const formSchema = z.object({
   file: z
     .custom<FileList>((val) => val instanceof FileList, "Required")
     .refine((files) => files.length > 0, `Required`),
-  // doctorName: z.string().min(1).max(200),
-  // description:   z.string().min(1).max(200),
+  doctorName: z.string().min(1).max(200),
+  description:   z.string().min(1).max(200),
 });
 
 export function UploadButton() {
@@ -51,6 +51,8 @@ export function UploadButton() {
     defaultValues: {
       title: "",
       file: undefined,
+      doctorName:"",
+      description:""
     },
   });
 
@@ -82,6 +84,8 @@ export function UploadButton() {
         fileId: storageId,
         orgId,
         type: types[fileType],
+        description:values.description,
+        doctorName:values.doctorName
       });
 
       form.reset();
@@ -155,6 +159,34 @@ export function UploadButton() {
                     <FormLabel>File</FormLabel>
                     <FormControl>
                       <Input type="file" {...fileRef} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+               <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+
+               <FormField
+                control={form.control}
+                name="doctorName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Doctor Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

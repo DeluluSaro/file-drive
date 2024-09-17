@@ -16,6 +16,8 @@ export default defineSchema({
     orgId: v.string(),
     fileId: v.id("_storage"),
     userId: v.id("users"),
+    doctorName:v.string(),
+    description:v.string(),
     shouldDelete: v.optional(v.boolean()),
   })
     .index("by_orgId", ["orgId"])
