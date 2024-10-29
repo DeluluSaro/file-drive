@@ -35,6 +35,15 @@ export const columns: ColumnDef<
     header: "Type",
   },
   {
+    accessorKey: "doctorName",
+    header: "Doctor Name",
+  },
+  {
+    accessorKey: "description",
+    header: "Description",
+  },
+  
+  {
     header: "User",
     cell: ({ row }) => {
       return <UserCell userId={row.original.userId} />;
@@ -63,4 +72,5 @@ export const columns: ColumnDef<
       );
     },
   },
+ 
 ];
