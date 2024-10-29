@@ -1,13 +1,19 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 
-// Create a Context for the IP Address
-const IpAddressContext = createContext<string | undefined>(undefined);
+// Define a type for the context value
+interface IpAddressContextType {
+  ipAddress: string;
+  setIpAddress: Dispatch<SetStateAction<string>>;
+}
+
+// Create a Context with a default value of undefined
+const IpAddressContext = createContext<IpAddressContextType | undefined>(undefined);
 
 // Provider component
 export const IpAddressProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [ipAddress, setIpAddress] = useState('192.168.0.10'); // Default IP Address
+  const [ipAddress, setIpAddress] = useState<string>('192.168.0.10'); // Default IP Address
 
   return (
     <IpAddressContext.Provider value={{ ipAddress, setIpAddress }}>

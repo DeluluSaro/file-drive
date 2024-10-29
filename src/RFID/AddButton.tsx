@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { useToast } from '@/components/ui/use-toast';
 import { useUser } from '@clerk/nextjs';
 import { useIpAddress } from '@/context/IpAddressContext';
-// import { useIpAddress } from '@/components/context/IpAddressContext';
 
 export default function AddCardButton() {
   const { toast } = useToast();
@@ -25,31 +24,40 @@ export default function AddCardButton() {
         return;
       }
 
+      if (!ipAddress) {
+        toast({
+          title: "Error",
+          description: "IP address not set. Please enter a valid IP address.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       // Set the phone number in the ESP8266 before adding the card
-      await fetch(`http://${ipAddress}/setPhoneNumber?phone=${encodeURIComponent(phoneNumber)}`, {
+      const phoneResponse = await fetch(`http://${ipAddress}/setPhoneNumber?phone=${encodeURIComponent(phoneNumber)}`, {
         method: 'GET',
       });
 
-      // Call the addCard endpoint
-      const response = await fetch(`http://${ipAddress}/addCard`);
+      if (!phoneResponse.ok) {
+        throw new Error(`Failed to set phone number: ${phoneResponse.statusText}`);
+      }
 
-      if (response.ok) {
-        const message = await response.text();
+      // Call the addCard endpoint
+      const addCardResponse = await fetch(`http://${ipAddress}/addCard`);
+
+      if (addCardResponse.ok) {
+        const message = await addCardResponse.text();
         toast({
           title: "Success",
           description: message,
         });
       } else {
-        toast({
-          title: "Oops",
-          description: "Failed to save card: " + response.statusText,
-          variant: "destructive",
-        });
+        throw new Error(`Failed to add card: ${addCardResponse.statusText}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Connection Error",
-        description: "Unable to reach the reader. Check connections and IP address.",
+        description: `Unable to reach the reader: ${error.message}`,
         variant: "destructive",
       });
     }
