@@ -1,14 +1,16 @@
-// components/AddCardButton.tsx
 "use client";
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { useToast } from '@/components/ui/use-toast';
 import { useUser } from '@clerk/nextjs';
+import { useIpAddress } from '@/context/IpAddressContext';
+// import { useIpAddress } from '@/components/context/IpAddressContext';
 
 export default function AddCardButton() {
   const { toast } = useToast();
   const { user } = useUser();
+  const { ipAddress } = useIpAddress(); // Get IP Address from Context
 
   const addCard = async () => {
     try {
@@ -24,12 +26,12 @@ export default function AddCardButton() {
       }
 
       // Set the phone number in the ESP8266 before adding the card
-      await fetch(`http://192.168.0.100/setPhoneNumber?phone=${encodeURIComponent(phoneNumber)}`, {
+      await fetch(`http://${ipAddress}/setPhoneNumber?phone=${encodeURIComponent(phoneNumber)}`, {
         method: 'GET',
       });
 
       // Call the addCard endpoint
-      const response = await fetch("http://192.168.0.100/addCard");
+      const response = await fetch(`http://${ipAddress}/addCard`);
 
       if (response.ok) {
         const message = await response.text();

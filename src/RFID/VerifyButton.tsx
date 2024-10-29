@@ -1,4 +1,3 @@
-// components/VerifyCardButton.tsx
 "use client";
 
 import { useRouter } from 'next/navigation';
@@ -6,11 +5,14 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { useToast } from '@/components/ui/use-toast';
 import { useUser } from '@clerk/nextjs';
+import { useIpAddress } from '@/context/IpAddressContext';
+// import { useIpAddress } from '@/components/context/IpAddressContext';
 
 export default function VerifyCardButton() {
   const router = useRouter();
   const { toast } = useToast();
   const { user } = useUser();
+  const { ipAddress } = useIpAddress(); // Get IP Address from Context
   const [loading, setLoading] = useState(false);
 
   const verifyCard = async () => {
@@ -29,11 +31,11 @@ export default function VerifyCardButton() {
       }
 
       // Set the phone number in the ESP8266 before verification
-      await fetch(`http://192.168.0.100/setPhoneNumber?phone=${encodeURIComponent(phoneNumber)}`, {
+      await fetch(`http://${ipAddress}/setPhoneNumber?phone=${encodeURIComponent(phoneNumber)}`, {
         method: 'GET',
       });
 
-      const response = await fetch('http://192.168.0.100/verifyCard', { method: 'GET' });
+      const response = await fetch(`http://${ipAddress}/verifyCard`, { method: 'GET' });
 
       if (response.status === 200) {
         toast({

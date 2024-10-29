@@ -5,6 +5,7 @@ import ConvexClientProvider from "./ConvexClientProvider";
 import { Header } from "./header";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "./footer";
+import { IpAddressProvider } from "@/context/IpAddressContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* <IpAdress */}
+        <IpAddressProvider>
         <ConvexClientProvider>
           <Toaster />
           <Header />
           {children}
           <Footer />
         </ConvexClientProvider>
+        </IpAddressProvider>
       </body>
     </html>
   );
