@@ -58,6 +58,9 @@ export const createFile = mutation({
     fileId: v.id("_storage"),
     orgId: v.string(),
     type: fileTypes,
+    doctorName:v.string(),
+    description:v.string()
+    
   },
   async handler(ctx, args) {
     const hasAccess = await hasAccessToOrg(ctx, args.orgId);
@@ -72,6 +75,8 @@ export const createFile = mutation({
       fileId: args.fileId,
       type: args.type,
       userId: hasAccess.user._id,
+      description:args.description,
+      doctorName:args.doctorName
     });
   },
 });

@@ -50,16 +50,17 @@ export function FileCard({
         {file.type === "csv" && <GanttChartIcon className="w-20 h-20" />}
         {file.type === "pdf" && <FileTextIcon className="w-20 h-20" />}
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <div className="flex gap-2 text-xs text-gray-700 w-40 items-center">
-          <Avatar className="w-6 h-6">
-            <AvatarImage src={userProfile?.image} />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          {userProfile?.name}
+      <CardFooter className="flex flex-col justify-start gap-2">
+        <div className="flex   gap-2 text-xs w-full items-center">
+         <h1  className="font-bold">Doctor Name:</h1>{file.doctorName}
         </div>
-        <div className="text-xs text-gray-700">
-          Uploaded on {formatRelative(new Date(file._creationTime), new Date())}
+        <div className="text-xs text-gray-700 w-full flex gap-2">
+          <h1 className="font-bold">Uploaded on:</h1>
+           {formatRelative(new Date(file._creationTime), new Date())}
+        </div>
+        <div className="text-xs text-gray-700 w-full flex gap-2">
+          <h1 className="font-bold">Description:</h1>
+          {file.description}
         </div>
       </CardFooter>
     </Card>

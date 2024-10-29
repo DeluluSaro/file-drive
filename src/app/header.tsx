@@ -20,7 +20,7 @@ export function Header() {
         </Link>
 
         <SignedIn>
-          <Button variant={"outline"}>
+          <Button variant={"outline"} className='hidden'>
             <Link href="/dashboard/files">Your Files</Link>
           </Button>
         </SignedIn>
