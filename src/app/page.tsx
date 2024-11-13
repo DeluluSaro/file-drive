@@ -12,6 +12,7 @@ export default function LandingPage() {
     <div className="flex flex-col gap-5 justify-center items-center w-full">
       <IpAddressInput></IpAddressInput>
       <VerifyCardButton></VerifyCardButton>
+      
       <AddCardButton></AddCardButton>
       
     </div>
